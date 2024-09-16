@@ -9,7 +9,9 @@ const app = express();
 
 dotenv.config()
 
-app.get("/products", async (req, res) => {
+app.use(express.json()) // allows parcing of json files
+
+app.post("/api/products", async (req, res) => {
  const Product = res.body // user sent data
  
     if (!Product.name || !Product.price || !Product.image) {
