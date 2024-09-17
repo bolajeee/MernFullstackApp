@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js"; // Assuming you have a DB connection file
-import Product from "./models/Product.js"; // Make sure you import the Product model
+import Product from "./models/product.model.js";// Make sure you import the Product model
 
 const app = express();
 
