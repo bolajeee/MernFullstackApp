@@ -1,35 +1,38 @@
-// conventional method
-// const express = require{'express'}
 import express from "express";
-import dotenv  from "dotenv";
-import {connectDB} from "./config/db.js"
-
+import dotenv from "dotenv";
+import { connectDB } from "./config/db.js"; // Assuming you have a DB connection file
+import Product from "./models/Product.js"; // Make sure you import the Product model
 
 const app = express();
 
-dotenv.config()
+dotenv.config();
 
-app.use(express.json()) // allows parcing of json files
+app.use(express.json()); // Allows parsing of JSON data in requests
 
 app.post("/api/products", async (req, res) => {
- const Product = res.body // user sent data
- 
-    if (!Product.name || !Product.price || !Product.image) {
-     return res.status(400).json({sucess:false, message: "Please provide all fields"})
-    }
-    
-    const newProduct = new Product(product)
+  const { name, price, image } = req.body; // Extract data from request body
 
-    try {
-        await newProduct.save()
-        res.status(201).json({sucess:true, data:newProduct})
-    } catch (error) {
-        console.error("Error in creating product", error.message)
-        res.status(500).json({success: false, message:"server error"})
-    }
+  // Validate input
+  if (!name || !price || !image) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please provide all fields" });
+  }
+
+  // Create new product instance
+  const newProduct = new Product({ name, price, image });
+
+  try {
+    // Save new product to the database
+    await newProduct.save();
+    res.status(201).json({ success: true, data: newProduct });
+  } catch (error) {
+    console.error("Error in creating product", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 app.listen(5000, () => {
-  connectDB()
-  console.log("server starts at http://localhost:5000");
+  connectDB();
+  console.log("Server starts at http://localhost:5000");
 });
