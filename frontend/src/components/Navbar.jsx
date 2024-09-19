@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { BiAddToQueue } from "react-icons/bi";
 import {IoMoon} from 'react-icons/io5'
 import { LuSun } from 'react-icons/lu'
+;
 
 
 
 const Navbar = () => {
 
-  const {colorMode, toggleColorMode} = useColorMode()
+  const { colorMode, toggleColorMode } = useColorMode()
+ 
 
   return (
     <Container
