@@ -1,11 +1,20 @@
 import Product from "../models/product.model.js";
+import mongoose from "mongoose";
 
 export const createProduct = async (req, res) => {
+  const product = req.body;
+  
+  const newProduct = new Product(product)
+  
+  if (!newProduct.name || !newProduct.image || !newProduct.price) {
+    return { success: false, message: "please fill in all required fields" };
+  }
+
   try {
-    const products = await Product.find({});
-    res.status(200).json({ status: true, data: products });
+    await newProduct.save()
+    res.status(201).json({ status: true, data: newProduct });
   } catch (error) {
-    console.log("error in fetching products:", error.message);
+    console.error("error in creating products:", error.message);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };

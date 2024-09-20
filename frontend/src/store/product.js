@@ -7,6 +7,8 @@ export const useProductStore = create((set) => ({
     if (!newProduct.name || !newProduct.image || !newProduct.price) {
       return { success: false, message: "please fill in all required fields" };
     }
+
+    
     try {
       const res = await fetch("/api/products", {
         method: "POST",
