@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 export const createProduct = async (req, res) => {
   const product = req.body;
-  
+  console.log(product)
   const newProduct = new Product(product)
   
   if (!newProduct.name || !newProduct.image || !newProduct.price) {
