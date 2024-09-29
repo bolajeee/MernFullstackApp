@@ -17,7 +17,7 @@ app.use(cors());
 
 app.use(express.json()); // Allows parsing of JSON data in requests
 
-app.use("/api/products", productRoutes);
+app.use("http://localhost:5000/api/products", productRoutes);
 
 app.listen(PORT, () => {
   connectDB();
