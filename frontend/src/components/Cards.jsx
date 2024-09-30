@@ -1,9 +1,12 @@
-import { Box, Container, Heading, HStack, IconButton, Image, SimpleGrid, Text } from "@chakra-ui/react"
+import { Box, Container, Heading, HStack, IconButton, Image, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { useProductStore } from "../store/product"
 import { transform } from "framer-motion"
 
 const Cards = () => {
+
+    const textColor = useColorModeValue("gray.600", "gray.200")
+    const bg = useColorModeValue("gray.600", "gray.200");
 
     const { fetchProducts, products } = useProductStore()
     
@@ -35,7 +38,8 @@ const Cards = () => {
                      rounded={"lg"}
                      overflow={"hidden"}
                      transition={"all .3s"}
-                     _hover={{ transform: " translateY{-5px}", shadow: "xl" }}
+                       _hover={{ transform: " translateY{-5px}", shadow: "xl" }}
+                       bg={bg}
                    >
                      <Image
                        src={product.image}
