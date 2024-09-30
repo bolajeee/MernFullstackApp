@@ -1,24 +1,53 @@
-import { Box, Button, Container, Heading, Input, useColorModeValue, VStack } from "@chakra-ui/react"
-import { useState } from "react"
-import { useProductStore } from "../store/product"
+import {
+  Box,
+  Button,
+  Container,
+  Heading,
+  Input,
+  useColorModeValue,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { useProductStore } from "../store/product";
 
 const CreatePage = () => {
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
-    image:""
-  })
-  
-  const {createProduct} = useProductStore()
+    image: "",
+  });
 
-  const handleAddProduct = async() => {
-    const {success, message} = await createProduct(newProduct)
-    console.log("Success:", success)
-    console.log("Message", message)
-  }
+  const { createProduct } = useProductStore();
+  const toast = useToast();
+
+  const handleAddProduct = async () => {
+    const { success, message } = await createProduct(newProduct);
+
+    if (!success) {
+      toast({
+        title: "Failed to create product",
+        description: "We are unable to create your product at this time.",
+        status: "failure",
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Product created.",
+        description: "We've successfully created your product.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+    console.log("Success:", success);
+    console.log("Message", message);
+  };
 
   return (
-    <Container maxW={"container.sm"} pt={'20vh'}>
+    <Container maxW={"container.sm"} pt={"20vh"}>
       <VStack spacing={8}>
         <Heading as={"h1"} size={"2xl"} textAlign={"center"}>
           Create New Product
@@ -58,14 +87,18 @@ const CreatePage = () => {
               }
             />
 
-            <Button colorScheme="blue" onClick={handleAddProduct} w={"full"}>
-                Add Product
+            <Button
+              colorScheme="blue"
+              onClick= {handleAddProduct}
+              w={"full"}
+            >
+              Add Product
             </Button>
           </VStack>
         </Box>
       </VStack>
     </Container>
   );
-}
+};
 
-export default CreatePage
+export default CreatePage;
