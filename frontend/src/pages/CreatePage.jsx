@@ -40,10 +40,10 @@ const CreatePage = () => {
         duration: 9000,
         isClosable: true,
       });
-    }
 
-    console.log("Success:", success);
-    console.log("Message", message);
+    }
+      setNewProduct({ name: "", price: "", image: "" });
+
   };
 
   return (
