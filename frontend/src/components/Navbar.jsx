@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Container, Flex, HStack, Spacer, Text, useColorMode, } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { BiAddToQueue } from "react-icons/bi";

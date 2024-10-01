@@ -1,4 +1,6 @@
-import {Container, Link, Text, VStack} from '@chakra-ui/react'
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+import { Container, Link, Text, VStack } from '@chakra-ui/react'
 import { Cards } from '../components';
 const HomePage = () => {
   return (
