@@ -4,13 +4,11 @@ export const useProductStore = create((set) => ({
   products: [],
   setProducts: (products) => set({ products }),
 
-
   createProduct: async (newProduct) => {
     if (!newProduct.name || !newProduct.image || !newProduct.price) {
       return { success: false, message: "please fill in all required fields" };
     }
 
-    
     try {
       const res = await fetch("/api/products", {
         method: "POST",
@@ -35,8 +33,12 @@ export const useProductStore = create((set) => ({
   },
 
   fetchProducts: async () => {
-    const res = await fetch("http://localhost:5000/api/products"); 
-    const data = await res.json()
-    set({products: data.data})
-  }
+    try {
+      const res = await fetch("/api/products");
+      const data = await res.json();
+      set({ products: data.data });
+    } catch (error) {
+      console.error(error);
+    }
+  },
 }));
