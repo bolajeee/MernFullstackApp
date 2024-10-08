@@ -12,9 +12,10 @@ const HomePage = () => {
           bgGradient={"linear(to-r, cyan.400, blue.500)"}
           bgClip={"text"}
           textAlign={"center"}
+          _hover={'underline'}
         >
           {" "}
-          Current Products 🚀
+          Current a Products 🚀
         </Text>
 
         <Text

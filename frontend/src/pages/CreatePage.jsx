@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -40,7 +41,7 @@ const CreatePage = () => {
         duration: 9000,
         isClosable: true,
       });
-
+      console.log(message)
     }
       setNewProduct({ name: "", price: "", image: "" });
 
@@ -68,6 +69,7 @@ const CreatePage = () => {
               onChange={(e) =>
                 setNewProduct({ ...newProduct, name: e.target.value })
               }
+             
             />
             <Input
               placeholder={"Price"}

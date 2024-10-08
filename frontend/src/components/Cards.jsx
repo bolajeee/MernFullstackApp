@@ -23,7 +23,6 @@ const Cards = () => {
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
-  console.log("products", products);
 
   return (
     <Container>
