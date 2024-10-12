@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useProductStore } from "../store/product";
@@ -16,9 +17,9 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 const Cards = () => {
   const textColor = useColorModeValue("gray.600", "gray.200");
-  const bg = useColorModeValue("gray.600", "gray.200");
+  const bg = useColorModeValue("gray.200", "gray.600");
 
-  const { fetchProducts, products } = useProductStore();
+  const { fetchProducts, products, deleteProduct } = useProductStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +29,30 @@ const Cards = () => {
     };
     fetchData();
   }, [fetchProducts]);
- 
+
+  const toast = useToast()
+
+  const handleDelete = async (pid) => {
+    const { success, message } = await deleteProduct(pid)
+    if (!success) {
+      toast({
+        title: "error",
+        description: message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true
+      })
+    } else {
+       toast({
+         title: "Success",
+         description: message,
+         status: "Success, product deleted",
+         duration: 3000,
+         isClosable: true,
+       });
+    }
+  }
+  
 
   return (
     <Container>
@@ -82,7 +106,7 @@ const Cards = () => {
                       <IconButton
                         icon={<DeleteIcon />}
                         onClick={() => {
-                          // handleDelete(product._id)
+                          handleDelete(product._id)
                         }}
                         colorScheme={"red"}
                       />

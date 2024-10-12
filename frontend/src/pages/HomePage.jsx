@@ -38,7 +38,10 @@ const HomePage = () => {
         )}
       </VStack>
 
+  
       {Cards && <Cards maxW="container.xl" py={12} />}
+      
+
     </Container>
   );
 }
