@@ -1,15 +1,26 @@
 import React from "react";
 import {
   Box,
+  Button,
   Container,
   Heading,
   HStack,
   IconButton,
   Image,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   SimpleGrid,
   Text,
   useColorModeValue,
+  useDisclosure,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useProductStore } from "../store/product";
@@ -19,8 +30,10 @@ const Cards = () => {
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("gray.200", "gray.600");
 
-  const { fetchProducts, products, deleteProduct } = useProductStore();
+  const { fetchProducts, products, deleteProduct, updateProduct } =
+    useProductStore();
   const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null); // For tracking the product to be updated
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,29 +43,52 @@ const Cards = () => {
     fetchData();
   }, [fetchProducts]);
 
-  const toast = useToast()
+  const toast = useToast();
 
   const handleDelete = async (pid) => {
-    const { success, message } = await deleteProduct(pid)
+    const { success, message } = await deleteProduct(pid);
     if (!success) {
       toast({
-        title: "error",
+        title: "Error",
         description: message,
-        status: 'error',
+        status: "error",
         duration: 3000,
-        isClosable: true
-      })
+        isClosable: true,
+      });
     } else {
-       toast({
-         title: "Success",
-         description: message,
-         status: "Success, product deleted",
-         duration: 3000,
-         isClosable: true,
-       });
+      toast({
+        title: "Success",
+        description: "Product deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     }
-  }
-  
+  };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleUpdateProduct = async (pid) => {
+    const { success, message } = await updateProduct(pid, selectedProduct);
+    if (success) {
+      toast({
+        title: "Success",
+        description: "Product updated successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
+    } else {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <Container>
@@ -66,8 +102,7 @@ const Cards = () => {
               md: 2,
               lg: 2,
             }}
-              spacing={10}
-              
+            spacing={10}
             width={"full"}
           >
             {products.map((product) => {
@@ -102,16 +137,81 @@ const Cards = () => {
                       ${product.price}
                     </Text>
                     <HStack spacing={2}>
-                      <IconButton icon={<EditIcon />} colorScheme={"blue"} />
+                      <IconButton
+                        icon={<EditIcon />}
+                        colorScheme={"blue"}
+                        onClick={() => {
+                          setSelectedProduct(product); // Set the product to be updated
+                          onOpen();
+                        }}
+                      />
                       <IconButton
                         icon={<DeleteIcon />}
                         onClick={() => {
-                          handleDelete(product._id)
+                          handleDelete(product._id);
                         }}
                         colorScheme={"red"}
                       />
                     </HStack>
                   </Box>
+
+                  <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>Update Product</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <VStack spacing={4}>
+                          <Input
+                            placeholder="Product Name"
+                            name="name"
+                            value={selectedProduct?.name || ""}
+                            onChange={(e) => {
+                              setSelectedProduct({
+                                ...selectedProduct,
+                                name: e.target.value,
+                              });
+                            }}
+                          />
+                          <Input
+                            placeholder="Product Price"
+                            name="price"
+                            value={selectedProduct?.price || ""}
+                            onChange={(e) => {
+                              setSelectedProduct({
+                                ...selectedProduct,
+                                price: e.target.value,
+                              });
+                            }}
+                          />
+                          <Input
+                            placeholder="Product Image URL"
+                            name="image"
+                            value={selectedProduct?.image || ""}
+                            onChange={(e) => {
+                              setSelectedProduct({
+                                ...selectedProduct,
+                                image: e.target.value,
+                              });
+                            }}
+                          />
+                        </VStack>
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button
+                          colorScheme="blue"
+                          mr={3}
+                          onClick={() => handleUpdateProduct(product._id)}
+                        >
+                          Update
+                        </Button>
+                        <Button colorScheme="red" onClick={onClose}>
+                          Cancel
+                        </Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
                 </Box>
               );
             })}
