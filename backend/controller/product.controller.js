@@ -20,26 +20,15 @@ export const createProduct = async (req, res) => {
 };
 
 export const getAllProduct = async (req, res) => {
-  const { name, price, image } = req.body; // Extract data from request body
-
-  // Validate input
-  if (!name || !price || !image) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Please provide all fields" });
-  }
-
-  // Create new product instance
-  const newProduct = new Product({ name, price, image });
-
-  try {
-    // Save new product to the database
-    await newProduct.save();
-    res.status(200).json({ success: true, data: newProduct });
-  } catch (error) {
-    console.error("Error in creating product", error.message);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
+ 
+    try {
+      const products = await Product.find().exec(); 
+      res.status(200).json({ data: products });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: "Error fetching products" });
+    
+  };
 };
 
 export const updateProducts = async (req, res) => {

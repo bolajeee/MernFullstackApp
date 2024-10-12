@@ -34,7 +34,7 @@ export const useProductStore = create((set) => ({
 
   fetchProducts: async () => {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch("http://localhost:5000/api/products");
       const data = await res.json();
       set({ products: data.data });
     } catch (error) {
