@@ -65,12 +65,19 @@ export const useProductStore = create((set) => ({
      },
      body: JSON.stringify(updatedProduct),
    });
+    console.log(pid);
+    
+    if (!res.ok) {
+      return { success: false, message: "Failed to update product" };
+    }
+    
     const data = await res.json()
+
     if (!data.success) {
       return {success: false, message: data.message}
     }
 
-    // update Ui withouth need for refresh
+    // updates Ui withouth need for refresh
     set(state => ({
       products: state.products.map(product => product._id === pid ? data.data : product)
     }))

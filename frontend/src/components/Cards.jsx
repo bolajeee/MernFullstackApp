@@ -33,7 +33,7 @@ const Cards = () => {
   const { fetchProducts, products, deleteProduct, updateProduct } =
     useProductStore();
   const [loading, setLoading] = useState(true);
-  const [selectedProduct, setSelectedProduct] = useState(null); // For tracking the product to be updated
+  const [productToUpdate, setProductToUpdate] = useState(); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +69,7 @@ const Cards = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleUpdateProduct = async (pid) => {
-    const { success, message } = await updateProduct(pid, selectedProduct);
+    const { success, message } = await updateProduct(pid, productToUpdate); // Using correct function
     if (success) {
       toast({
         title: "Success",
@@ -91,7 +91,9 @@ const Cards = () => {
   };
 
   return (
-    <Container>
+    <Container
+      maxW={{ lg: "container.lg", md: "container.sm", sm: "container.sm" }}
+    >
       {loading ? (
         <Text>Loading...</Text>
       ) : (
@@ -100,7 +102,7 @@ const Cards = () => {
             columns={{
               base: 1,
               md: 2,
-              lg: 2,
+              lg: 3,
             }}
             spacing={10}
             width={"full"}
@@ -141,7 +143,7 @@ const Cards = () => {
                         icon={<EditIcon />}
                         colorScheme={"blue"}
                         onClick={() => {
-                          setSelectedProduct(product); // Set the product to be updated
+                          setProductToUpdate(product); // Set the product to be updated
                           onOpen();
                         }}
                       />
@@ -165,10 +167,10 @@ const Cards = () => {
                           <Input
                             placeholder="Product Name"
                             name="name"
-                            value={selectedProduct?.name || ""}
+                            value={productToUpdate?.name || ""}
                             onChange={(e) => {
-                              setSelectedProduct({
-                                ...selectedProduct,
+                              setProductToUpdate({
+                                ...productToUpdate,
                                 name: e.target.value,
                               });
                             }}
@@ -176,10 +178,10 @@ const Cards = () => {
                           <Input
                             placeholder="Product Price"
                             name="price"
-                            value={selectedProduct?.price || ""}
+                            value={productToUpdate?.price || ""}
                             onChange={(e) => {
-                              setSelectedProduct({
-                                ...selectedProduct,
+                              setProductToUpdate({
+                                ...productToUpdate,
                                 price: e.target.value,
                               });
                             }}
@@ -187,10 +189,10 @@ const Cards = () => {
                           <Input
                             placeholder="Product Image URL"
                             name="image"
-                            value={selectedProduct?.image || ""}
+                            value={productToUpdate?.image || ""}
                             onChange={(e) => {
-                              setSelectedProduct({
-                                ...selectedProduct,
+                              setProductToUpdate({
+                                ...productToUpdate,
                                 image: e.target.value,
                               });
                             }}
