@@ -33,7 +33,6 @@ const Cards = () => {
   const { fetchProducts, products, deleteProduct, updateProduct } =
     useProductStore();
   const [loading, setLoading] = useState(true);
-  const [productToUpdate, setProductToUpdate] = useState(); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,27 +66,11 @@ const Cards = () => {
   };
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [updatedProduct, setUpdatedProduct] = useState({});
 
-  const handleUpdateProduct = async (pid) => {
-    const { success, message } = await updateProduct(pid, productToUpdate); // Using correct function
-    if (success) {
-      toast({
-        title: "Success",
-        description: "Product updated successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-      onClose();
-    } else {
-      toast({
-        title: "Error",
-        description: message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+  const handleUpdateProduct = async (pid, updatedProduct) => {
+    await updateProduct(pid, updatedProduct);
+    onClose()
   };
 
   return (
@@ -143,7 +126,7 @@ const Cards = () => {
                         icon={<EditIcon />}
                         colorScheme={"blue"}
                         onClick={() => {
-                          setProductToUpdate(product); // Set the product to be updated
+                           setUpdatedProduct(product);
                           onOpen();
                         }}
                       />
@@ -167,10 +150,10 @@ const Cards = () => {
                           <Input
                             placeholder="Product Name"
                             name="name"
-                            value={productToUpdate?.name || ""}
+                            value={updatedProduct.name}
                             onChange={(e) => {
-                              setProductToUpdate({
-                                ...productToUpdate,
+                              setUpdatedProduct({
+                                ...updatedProduct,
                                 name: e.target.value,
                               });
                             }}
@@ -178,10 +161,10 @@ const Cards = () => {
                           <Input
                             placeholder="Product Price"
                             name="price"
-                            value={productToUpdate?.price || ""}
+                            value={updatedProduct.price}
                             onChange={(e) => {
-                              setProductToUpdate({
-                                ...productToUpdate,
+                              setUpdatedProduct({
+                                ...updatedProduct,
                                 price: e.target.value,
                               });
                             }}
@@ -189,10 +172,10 @@ const Cards = () => {
                           <Input
                             placeholder="Product Image URL"
                             name="image"
-                            value={productToUpdate?.image || ""}
+                            value={updatedProduct.image}
                             onChange={(e) => {
-                              setProductToUpdate({
-                                ...productToUpdate,
+                              setUpdatedProduct({
+                                ...updatedProduct,
                                 image: e.target.value,
                               });
                             }}
@@ -204,7 +187,9 @@ const Cards = () => {
                         <Button
                           colorScheme="blue"
                           mr={3}
-                          onClick={() => handleUpdateProduct(product._id)}
+                          onClick={() => {
+                            handleUpdateProduct(product._id, updatedProduct);
+                          }}
                         >
                           Update
                         </Button>
