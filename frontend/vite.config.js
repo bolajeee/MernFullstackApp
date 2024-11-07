@@ -1,16 +1,21 @@
-// https://vitejs.dev/config/
 import { defineConfig } from "vite";
 import commonjs from "@rollup/plugin-commonjs";
 
 export default defineConfig({
-  plugins: [commonjs()],
+  plugins: [
+    commonjs({
+      namedExports: {
+        "hoist-non-react-statics": ["default"],
+      },
+    }),
+  ],
   optimizeDeps: {
-    include: ["framer-motion"],
+    include: ["framer-motion", "hoist-non-react-statics"],
   },
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000", // Backend API server
+        target: "http://localhost:5000",
         changeOrigin: true,
         secure: false,
       },
