@@ -68,9 +68,34 @@ const Cards = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [updatedProduct, setUpdatedProduct] = useState({});
 
-  const handleUpdateProduct = async (pid, updatedProduct) => {
-    await updateProduct(pid, updatedProduct);
+  const handleUpdateProduct = async (pid, data) => {
+  
+    const updatedData = {
+        "name": data.name,
+        "price": data.price,
+        "image": data.image        
+}
+
+    const {success, message} = await updateProduct(pid, updatedData)
     onClose()
+    if (!success) { 
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 3000,
+        isClosable: true
+      })
+    
+    } else {
+        toast({
+          title: "uccess",
+          description: "Product updated successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+    }
   };
 
   return (
