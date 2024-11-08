@@ -1,16 +1,11 @@
 import { defineConfig } from "vite";
-import commonjs from "@rollup/plugin-commonjs";
 
 export default defineConfig({
-  plugins: [
-    commonjs({
-      namedExports: {
-        "hoist-non-react-statics": ["default"],
-      },
-    }),
-  ],
+  define: {
+    "process.env": {},
+  },
   optimizeDeps: {
-    include: ["framer-motion", "hoist-non-react-statics"],
+    include: ["@emotion/react", "framer-motion", "hoist-non-react-statics"],
   },
   server: {
     proxy: {

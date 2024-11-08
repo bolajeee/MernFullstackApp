@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon backend/server.js",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "build": "npm install --prefix frontend && npm run build --prefix frontend",
     "start": "cross-env NODE_ENV=production node backend/server.js"
   },
   "keywords": [],
@@ -14,21 +14,24 @@
   "description": "",
   "dependencies": {
     "@emotion/react": "^11.13.3",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@vitejs/plugin-react": "^4.3.3",
     "cors": "^2.8.5",
     "create-vite": "^5.5.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "glob": "^9.0.0",
-    "hoist-non-react-statics": "^3.3.0",
+    "hoist-non-react-statics": "^3.3.2",
     "mongoose": "^8.6.2",
     "mongose": "^0.0.2-security",
     "python": "^0.0.4",
-    "rimraf": "^4.0.0",
-    "sass": "^1.80.6"
+    "sass": "^1.80.6",
+    "vite": "^5.4.10"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "rimraf": "^6.0.1"
   }
 }
