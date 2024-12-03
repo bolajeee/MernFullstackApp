@@ -31,7 +31,7 @@ export const getAllProduct = async (req, res) => {
   };
 };
 
-export const updateProducts = async (req, res) => {
+export const updateProduct = async (req, res) => {
   const { id } = req.params;
 
   const product = req.body;
@@ -41,17 +41,17 @@ if (!mongoose.Types.ObjectId.isValid(id)) {
 }
 
 try {
-  const updateProducts = await Product.findByIdAndUpdate(id, product, {
+  const updateProduct = await Product.findByIdAndUpdate(id, product, {
     new: true,
   });
 
-  if (!updateProducts) {
-    return res
-      .status(404)
-      .json({ success: false, message: "Product not found" });
-  }
+  // if (!updateProduct) {
+  //   return res
+  //     .status(404)
+  //     .json({ success: false, message: "Product not found" });
+  // }
 
-  res.status(200).json({ success: true, data: updateProducts });
+  res.status(200).json({ success: true, data: updatedProduct });
 } catch (error) {
   console.log(error)
   res.status(500).json({ success: false, message: "Server error" });
