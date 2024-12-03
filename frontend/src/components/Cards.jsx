@@ -1,5 +1,9 @@
 import React from "react";
+
 import {
+
+  Center,
+  Spinner,
   Box,
   Button,
   Container,
@@ -43,6 +47,19 @@ const Cards = () => {
   }, [fetchProducts]);
 
   const toast = useToast();
+
+  const Loading = () => {
+    return (
+      <Center height="50vh">
+        <Box textAlign="center">
+          <Spinner size="xl" thickness="4px" speed="0.65s" color="blue.500" />
+          <Text mt={4} fontSize="xl" color="gray.600">
+            Loading, please wait...
+          </Text>
+        </Box>
+      </Center>
+    );
+  };
 
   const handleDelete = async (pid) => {
     const { success, message } = await deleteProduct(pid);
@@ -103,7 +120,7 @@ const Cards = () => {
       maxW={{ lg: "container.lg", md: "container.sm", sm: "container.sm" }}
     >
       {loading ? (
-        <Text>Loading...</Text>
+        <Loading />
       ) : (
         products && (
           <SimpleGrid
