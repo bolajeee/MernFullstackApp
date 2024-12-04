@@ -1,6 +1,7 @@
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
 
+
 export const createProduct = async (req, res) => {
   const product = req.body;
   console.log(product)
@@ -31,7 +32,7 @@ export const getAllProduct = async (req, res) => {
   };
 };
 
-export const updateProduct = async (req, res) => {
+export const updateProducts = async (req, res) => {
   const { id } = req.params;
 
   const product = req.body;
