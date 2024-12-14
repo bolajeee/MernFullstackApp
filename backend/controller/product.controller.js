@@ -52,7 +52,7 @@ try {
   //     .json({ success: false, message: "Product not found" });
   // }
 
-  res.status(200).json({ success: true, data: updatedProduct });
+  res.status(200).json({ success: true, data: updateProduct });
 } catch (error) {
   console.log(error)
   res.status(500).json({ success: false, message: "Server error" });

@@ -14,7 +14,19 @@ const PORT = process.env.PORT || 5000;
 const _dirname = path.resolve();
 
 // Enable CORS for all origins
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 
 app.use(express.json()); // Allows parsing of JSON data in requests
 

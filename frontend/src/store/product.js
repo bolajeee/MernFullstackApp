@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const API_BASE_URL = "http://localhost:5000/api/products";
+const API_BASE_URL = "http://localhost:5174/api/products";
 
 export const useProductStore = create((set) => ({
   products: [],
@@ -38,7 +38,8 @@ export const useProductStore = create((set) => ({
 
   fetchProducts: async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}`);
+      const res = await fetch(`${API_BASE_URL}`, { mode: "no-cors" });
+
       if (res.ok) {
         const data = await res.json();
         set({ products: data.data });

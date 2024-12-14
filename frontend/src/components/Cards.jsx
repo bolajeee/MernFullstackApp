@@ -30,6 +30,8 @@ import { useProductStore } from "../store/product";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 const Cards = () => {
+
+
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bg = useColorModeValue("gray.200", "gray.600");
 
@@ -46,7 +48,7 @@ const Cards = () => {
 
   const toast = useToast();
 
-  
+  console.log(products);
 
   const Loading = memo(function Loading(){
 
@@ -90,15 +92,15 @@ const Cards = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [updatedProduct, setUpdatedProduct] = useState({});
 
-  const handleUpdatedProduct = async (pid, data) => {
+  const handleUpdatedProduct = async () => {
     try {
       const updatedData = {
-        name: data.name,
-        price: data.price,
-        image: data.image,
+        name: updatedProduct.name,
+        price: updatedProduct.price,
+        image: updatedProduct.image,
       };
 
-      const { success, message } = await updateProduct(pid, updatedData);
+      const { success, message } = await updateProduct(updatedProduct?._id, updatedData);
       onClose();
       if (!success) {
         toast({
@@ -239,7 +241,7 @@ const Cards = () => {
                         colorScheme="blue"
                         mr={3}
                         onClick={() => {
-                          handleUpdatedProduct(product._id, updatedProduct);
+                          handleUpdatedProduct();
                         }}
                       >
                         Update
